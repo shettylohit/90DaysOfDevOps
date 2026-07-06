@@ -1,4 +1,5 @@
 Process management
+
 ps:	Displays information about running processes.	
 
 top:	Shows real-time system and process activity.	
