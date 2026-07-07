@@ -144,3 +144,98 @@ tcp         LISTEN        0             128                        0.0.0.0:22   
 tcp         LISTEN        0             128                        0.0.0.0:8080                    0.0.0.0:*                        
 tcp         LISTEN        0             128                           [::]:22                         [::]:*                        
 
+The ss -tulpn command displays active network socket connections, showing exactly which programs are listening for incoming traffic.
+
+Breakdown of the Options-t 
+(TCP): Shows TCP sockets.-u 
+(UDP): Shows UDP sockets.
+-l (Listening): Shows only sockets actively waiting for connections.
+-p (Processes): Shows the process name and PID using the socket (requires sudo).
+-n (Numeric): Shows raw port numbers and IP addresses instead of names (e.g., 80 instead of http).
+#########################################################################################
+
+13. curl -IL google.com 
+HTTP/1.1 301 Moved Permanently
+Location: http://www.google.com/
+Content-Type: text/html; charset=UTF-8
+Content-Security-Policy-Report-Only: object-src 'none';base-uri 'self';script-src 'nonce-43fV4nW79-Nw3MUyljXd_Q' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp
+Date: Tue, 07 Jul 2026 08:13:10 GMT
+Expires: Thu, 06 Aug 2026 08:13:10 GMT
+Cache-Control: public, max-age=2592000
+Server: gws
+Content-Length: 219
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+
+HTTP/1.1 200 OK
+Content-Type: text/html; charset=ISO-8859-1
+Content-Security-Policy-Report-Only: object-src 'none';base-uri 'self';script-src 'nonce-UgeGcIu_-AA8krbkQE_dlg' 'strict-dynamic' 'report-sample' 'unsafe-eval' 'unsafe-inline' https: http:;report-uri https://csp.withgoogle.com/csp/gws/other-hp
+Date: Tue, 07 Jul 2026 08:13:10 GMT
+Server: gws
+X-XSS-Protection: 0
+X-Frame-Options: SAMEORIGIN
+Expires: Tue, 07 Jul 2026 08:13:10 GMT
+Cache-Control: private
+Set-Cookie: AEC=AdJVEauBoixQkQSObMK7yoa4GnP8xygjhMDa7-vu9dUk4AqOHdSBjC2va_U; expires=Sun, 03-Jan-2027 08:13:10 GMT; path=/; domain=.google.com; Secure; HttpOnly; SameSite=lax
+Transfer-Encoding: chunked
+
+Curl command fetches the response for the given URL
+-I (Fetch Headers Only)
+-L (Follow Redirects)
+
+#########################################################################################
+
+14. ping -c 4 google.com 
+PING google.com (64.233.162.102) 56(84) bytes of data.
+64 bytes from li-in-f102.1e100.net (64.233.162.102): icmp_seq=1 ttl=102 time=5.42 ms
+64 bytes from li-in-f102.1e100.net (64.233.162.102): icmp_seq=2 ttl=102 time=3.92 ms
+64 bytes from li-in-f102.1e100.net (64.233.162.102): icmp_seq=3 ttl=102 time=3.96 ms
+64 bytes from li-in-f102.1e100.net (64.233.162.102): icmp_seq=4 ttl=102 time=3.92 ms
+
+ping command tests network connectivity
+ping: Sends ICMP Echo Request packets to network hosts.
+-c 4: (Count) Limits the total number of packets sent to 4. Without this flag on Linux, ping will run indefinitely until you stop it manually with Ctrl + C
+
+#########################################################################################
+15. journalctl -u ssh 
+Jul 07 08:01:02 ubuntu-host sshd[2177]: error: kex_exchange_identification: Connection closed by remote host
+Jul 07 08:01:02 ubuntu-host sshd[2177]: Connection closed by 10.244.54.188 port 60276
+Jul 07 08:01:02 ubuntu-host sshd[2178]: Connection closed by authenticating user root 10.244.54.188 port 60292 [preauth]
+Jul 07 08:01:02 ubuntu-host sshd[2181]: Accepted password for root from 10.244.54.188 port 60300 ssh2
+Jul 07 08:01:02 ubuntu-host sshd[2181]: pam_unix(sshd:session): session opened for user root(uid=0) by (uid=0)
+Jul 07 08:01:02 ubuntu-host sshd[2181]: Received disconnect from 10.244.54.188 port 60300:11: disconnected by user
+Jul 07 08:01:02 ubuntu-host sshd[2181]: Disconnected from user root 10.244.54.188 port 60300
+Jul 07 08:01:02 ubuntu-host sshd[2181]: pam_unix(sshd:session): session closed for user root
+Jul 07 08:01:02 ubuntu-host sshd[2196]: Accepted publickey for root from 10.244.54.188 port 60306 ssh2: RSA SHA256:NKPOq9aSIaxLhIZyoGJmz+blYo0XmN/j1MVVyIIro5g
+
+The journalctl -u ssh command views the system logs
+
+journalctl -u ssh -f
+-f See live updates (Real-time tracking)
+
+journalctl -u ssh -p err
+-p Show only errors or failures
+
+journalctl -u ssh --since today
+--since See logs from today only
+
+journalctl -u ssh -e
+-e Jump straight to the end of the log
+#########################################################################################
+
+tail -n 5 /etc/sudoers.d/README 
+#
+# Finally, please note that using the visudo command is the recommended way
+# to update sudoers content, since it protects against many failure modes.
+# See the man page for visudo and sudoers for more information.
+#
+
+tail command displays the last 5 lines of the documentation file 
+
+ tail -n 5 /etc/sudoers.d/README -f
+#
+# Finally, please note that using the visudo command is the recommended way
+# to update sudoers content, since it protects against many failure modes.
+# See the man page for visudo and sudoers for more information.
+
+-f See live updates (Real-time tracking)
