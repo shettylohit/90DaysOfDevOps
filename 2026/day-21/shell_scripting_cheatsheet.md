@@ -1,382 +1,146 @@
-Here's a complete Markdown cheat sheet you can save as **`shell_scripting_cheatsheet.md`**.
+Yes. A tabular format is often easier to scan during interviews or while writing scripts. Here's a concise version you can use as `shell_scripting_cheatsheet.md`.
 
 ````markdown
 # Shell Scripting Cheat Sheet
 
-A quick reference guide for Bash Shell Scripting covering syntax, commands, loops, functions, text processing, debugging, and useful one-liners.
+---
+
+# 1. Basics
+
+| Topic | Syntax | Description | Example |
+|-------|--------|-------------|---------|
+| Shebang | `#!/bin/bash` | Specifies the Bash interpreter | `#!/bin/bash` |
+| Make executable | `chmod +x script.sh` | Gives execute permission | `chmod +x script.sh` |
+| Run script | `./script.sh` | Runs executable script | `./script.sh` |
+| Run with bash | `bash script.sh` | Runs without execute permission | `bash script.sh` |
+| Comment | `#` | Single-line comment | `# This is a comment` |
+| Variable | `NAME="John"` | Declare variable | `echo "$NAME"` |
+| Read input | `read` | Reads user input | `read -p "Name: " NAME` |
+| Script name | `$0` | Current script | `echo $0` |
+| First argument | `$1` | First CLI argument | `echo $1` |
+| Number of args | `$#` | Total arguments | `echo $#` |
+| All args | `$@` | All arguments | `echo "$@"` |
+| Exit status | `$?` | Previous command status | `echo $?` |
 
 ---
 
-# Task 1: Basics
+# 2. String Operators
 
-## 1. Shebang
-
-```bash
-#!/bin/bash
-```
-
-### What it does
-Tells the operating system which interpreter should execute the script.
-
-### Why it matters
-- Ensures the correct shell is used.
-- Makes scripts portable and predictable.
+| Operator | Meaning | Example |
+|----------|---------|---------|
+| `=` | Equal | `[ "$a" = "$b" ]` |
+| `!=` | Not equal | `[ "$a" != "$b" ]` |
+| `-z` | Empty string | `[ -z "$name" ]` |
+| `-n` | Non-empty string | `[ -n "$name" ]` |
 
 ---
 
-## 2. Running a Script
+# 3. Integer Operators
 
-### Give execute permission
-
-```bash
-chmod +x script.sh
-```
-
-### Execute directly
-
-```bash
-./script.sh
-```
-
-### Run with bash
-
-```bash
-bash script.sh
-```
-
-Difference:
-
-- `./script.sh` requires execute permission.
-- `bash script.sh` does not.
+| Operator | Meaning | Example |
+|----------|---------|---------|
+| `-eq` | Equal | `[ $a -eq $b ]` |
+| `-ne` | Not equal | `[ $a -ne $b ]` |
+| `-lt` | Less than | `[ $a -lt 10 ]` |
+| `-gt` | Greater than | `[ $a -gt 10 ]` |
+| `-le` | Less than or equal | `[ $a -le 10 ]` |
+| `-ge` | Greater than or equal | `[ $a -ge 10 ]` |
 
 ---
 
-## 3. Comments
+# 4. File Test Operators
 
-### Single-line
-
-```bash
-# This is a comment
-```
-
-### Inline
-
-```bash
-echo "Hello" # Prints Hello
-```
+| Operator | Meaning | Example |
+|----------|---------|---------|
+| `-f` | Regular file | `[ -f file.txt ]` |
+| `-d` | Directory | `[ -d folder ]` |
+| `-e` | Exists | `[ -e file ]` |
+| `-r` | Readable | `[ -r file ]` |
+| `-w` | Writable | `[ -w file ]` |
+| `-x` | Executable | `[ -x script.sh ]` |
+| `-s` | File not empty | `[ -s file.txt ]` |
 
 ---
 
-## 4. Variables
+# 5. Conditionals
 
-### Declare
-
-```bash
-NAME="John"
-AGE=25
-```
-
-### Use
-
-```bash
-echo $NAME
-echo "$NAME"
-```
-
-### Quoting
-
-```bash
-"$NAME"
-```
-
-Expands the variable.
-
-```bash
-'$NAME'
-```
-
-Prints literally:
-
-```
-$NAME
-```
-
-Always quote variables unless you intentionally want word splitting.
-
----
-
-## 5. Reading User Input
-
-```bash
-read NAME
-
-echo "Hello $NAME"
-```
-
-Prompt example:
-
-```bash
-read -p "Enter username: " USER
-```
-
----
-
-## 6. Command Line Arguments
-
-Example:
-
-```bash
-bash script.sh file.txt backup
-```
-
-Inside script:
-
-```bash
-echo $0
-echo $1
-echo $2
-echo $#
-echo $@
-echo $?
-```
-
-Meaning:
-
-| Variable | Meaning |
-|----------|---------|
-| `$0` | Script name |
-| `$1` | First argument |
-| `$2` | Second argument |
-| `$#` | Number of arguments |
-| `$@` | All arguments |
-| `$?` | Exit status of previous command |
-
----
-
-# Task 2: Operators and Conditionals
-
-## String Comparisons
-
-```bash
-[ "$A" = "$B" ]
-
-[ "$A" != "$B" ]
-
-[ -z "$A" ]
-
-[ -n "$A" ]
-```
-
-Example
-
-```bash
-if [ "$USER" = "root" ]
-then
-    echo "Administrator"
-fi
-```
-
----
-
-## Integer Comparisons
-
-```bash
--eq
--ne
--lt
--gt
--le
--ge
-```
-
-Example
-
-```bash
-if [ "$AGE" -ge 18 ]
-then
-    echo "Adult"
-fi
-```
-
----
-
-## File Test Operators
-
-| Operator | Meaning |
-|-----------|---------|
-| `-f` | Regular file |
-| `-d` | Directory |
-| `-e` | Exists |
-| `-r` | Readable |
-| `-w` | Writable |
-| `-x` | Executable |
-| `-s` | Not empty |
-
-Example
-
-```bash
-if [ -f file.txt ]
-then
-    echo "Exists"
-fi
-```
-
----
-
-## if / elif / else
+## if
 
 ```bash
 if [ condition ]
 then
     commands
-
 elif [ condition ]
 then
     commands
-
 else
     commands
 fi
 ```
 
----
-
-## Logical Operators
-
-AND
-
-```bash
-[ "$A" = "yes" ] && echo "True"
-```
-
-OR
-
-```bash
-command || echo "Failed"
-```
-
-NOT
-
-```bash
-if ! grep "root" file.txt
-then
-    echo "Not found"
-fi
-```
-
----
+| Operator | Meaning | Example |
+|----------|---------|---------|
+| `&&` | AND | `cmd1 && cmd2` |
+| `||` | OR | `cmd1 || echo "Failed"` |
+| `!` | NOT | `if ! grep root file` |
 
 ## Case Statement
 
 ```bash
 case "$1" in
-
-start)
-    echo "Starting"
-    ;;
-
-stop)
-    echo "Stopping"
-    ;;
-
-restart)
-    echo "Restarting"
-    ;;
-
-*)
-    echo "Invalid option"
-    ;;
-
+start) echo "Start";;
+stop) echo "Stop";;
+restart) echo "Restart";;
+*) echo "Invalid";;
 esac
 ```
 
 ---
 
-# Task 3: Loops
+# 6. Loops
 
 ## For Loop
 
-### List Based
-
 ```bash
-for name in Alice Bob Charlie
+for item in A B C
 do
-    echo "$name"
+    echo "$item"
 done
 ```
 
-### C Style
+## C-style For
 
 ```bash
 for ((i=1;i<=5;i++))
 do
-    echo "$i"
+    echo $i
 done
 ```
-
----
 
 ## While Loop
 
 ```bash
-count=1
-
 while [ $count -le 5 ]
 do
-    echo $count
     ((count++))
 done
 ```
-
----
 
 ## Until Loop
 
 ```bash
-count=1
-
 until [ $count -gt 5 ]
 do
-    echo $count
     ((count++))
 done
 ```
 
----
+| Keyword | Purpose |
+|----------|---------|
+| `break` | Exit loop |
+| `continue` | Skip current iteration |
 
-## break
-
-```bash
-for i in {1..10}
-do
-    if [ "$i" -eq 5 ]
-    then
-        break
-    fi
-
-    echo "$i"
-done
-```
-
----
-
-## continue
-
-```bash
-for i in {1..5}
-do
-    if [ "$i" -eq 3 ]
-    then
-        continue
-    fi
-
-    echo "$i"
-done
-```
-
----
-
-## Loop Through Files
+### Loop through files
 
 ```bash
 for file in *.log
@@ -385,53 +149,34 @@ do
 done
 ```
 
----
-
-## Loop Through Command Output
-
-```bash
-cat users.txt | while read line
-do
-    echo "$line"
-done
-```
-
-Better practice:
+### Read file line by line
 
 ```bash
 while read line
 do
     echo "$line"
-done < users.txt
+done < file.txt
 ```
 
 ---
 
-# Task 4: Functions
+# 7. Functions
 
-## Define Function
+| Topic | Example |
+|-------|---------|
+| Define | `hello(){ echo "Hi"; }` |
+| Call | `hello` |
+| Arguments | `echo "$1"` |
+| Local variable | `local name="John"` |
+| Return status | `return 0` |
+| Return data | `echo "value"` |
 
-```bash
-hello() {
-    echo "Hello"
-}
-```
-
----
-
-## Call Function
-
-```bash
-hello
-```
-
----
-
-## Function Arguments
+Example
 
 ```bash
-greet() {
-    echo "Hello $1"
+greet(){
+    local name="$1"
+    echo "Hello $name"
 }
 
 greet Alice
@@ -439,522 +184,146 @@ greet Alice
 
 ---
 
-## Return Values
-
-Using return
-
-```bash
-myfunc() {
-    return 0
-}
-```
-
-Using echo
-
-```bash
-square() {
-    echo $(($1 * $1))
-}
-
-result=$(square 5)
-```
-
-Use `return` for exit status (0–255), and `echo` to output data.
-
----
-
-## Local Variables
-
-```bash
-show() {
-
-    local name="John"
-
-    echo "$name"
-
-}
-```
-
----
-
-# Task 5: Text Processing Commands
+# 8. Text Processing Commands
 
 ## grep
 
-Search text
-
-```bash
-grep "error" file.log
-```
-
-Ignore case
-
-```bash
-grep -i error file.log
-```
-
-Recursive
-
-```bash
-grep -r error .
-```
-
-Count matches
-
-```bash
-grep -c error file.log
-```
-
-Line numbers
-
-```bash
-grep -n error file.log
-```
-
-Invert match
-
-```bash
-grep -v error file.log
-```
-
-Extended regex
-
-```bash
-grep -E "error|warning"
-```
+| Command | Purpose |
+|---------|---------|
+| `grep "error" file` | Search |
+| `grep -i error file` | Ignore case |
+| `grep -r error .` | Recursive |
+| `grep -c error file` | Count |
+| `grep -n error file` | Line numbers |
+| `grep -v error file` | Invert match |
+| `grep -E "A|B"` | Extended regex |
 
 ---
 
 ## awk
 
-Print column
-
-```bash
-awk '{print $1}'
-```
-
-Custom delimiter
-
-```bash
-awk -F, '{print $2}'
-```
-
-Pattern
-
-```bash
-awk '/error/'
-```
-
-BEGIN
-
-```bash
-awk 'BEGIN {print "Start"}'
-```
-
-END
-
-```bash
-awk 'END {print "Done"}'
-```
+| Command | Purpose |
+|---------|---------|
+| `awk '{print $1}' file` | First column |
+| `awk -F, '{print $2}' file.csv` | Custom delimiter |
+| `awk '/error/' file` | Pattern |
+| `awk 'BEGIN{print "Start"}'` | BEGIN block |
+| `awk 'END{print "Done"}'` | END block |
 
 ---
 
 ## sed
 
-Replace
-
-```bash
-sed 's/foo/bar/'
-```
-
-Global replace
-
-```bash
-sed 's/foo/bar/g'
-```
-
-Delete line
-
-```bash
-sed '5d'
-```
-
-In-place edit
-
-```bash
-sed -i 's/foo/bar/g' file.txt
-```
+| Command | Purpose |
+|---------|---------|
+| `sed 's/a/b/' file` | Replace first |
+| `sed 's/a/b/g' file` | Replace all |
+| `sed '5d' file` | Delete line 5 |
+| `sed -i 's/a/b/g' file` | Edit file |
 
 ---
 
 ## cut
 
-By delimiter
-
-```bash
-cut -d',' -f2 file.csv
-```
-
-Characters
-
-```bash
-cut -c1-5
-```
+| Command | Purpose |
+|---------|---------|
+| `cut -d',' -f2 file.csv` | Extract column |
+| `cut -c1-5 file` | Extract characters |
 
 ---
 
 ## sort
 
-Alphabetical
-
-```bash
-sort names.txt
-```
-
-Numeric
-
-```bash
-sort -n numbers.txt
-```
-
-Reverse
-
-```bash
-sort -r names.txt
-```
-
-Unique
-
-```bash
-sort -u names.txt
-```
+| Command | Purpose |
+|---------|---------|
+| `sort file` | Alphabetical |
+| `sort -n file` | Numeric |
+| `sort -r file` | Reverse |
+| `sort -u file` | Unique |
 
 ---
 
 ## uniq
 
-Remove duplicates
-
-```bash
-uniq file.txt
-```
-
-Count
-
-```bash
-uniq -c file.txt
-```
+| Command | Purpose |
+|---------|---------|
+| `uniq file` | Remove duplicates |
+| `uniq -c file` | Count duplicates |
 
 ---
 
 ## tr
 
-Uppercase
-
-```bash
-tr 'a-z' 'A-Z'
-```
-
-Delete spaces
-
-```bash
-tr -d ' '
-```
+| Command | Purpose |
+|---------|---------|
+| `tr 'a-z' 'A-Z'` | Uppercase |
+| `tr -d ' '` | Delete spaces |
 
 ---
 
 ## wc
 
-```bash
-wc file.txt
-```
-
-Lines
-
-```bash
-wc -l
-```
-
-Words
-
-```bash
-wc -w
-```
-
-Characters
-
-```bash
-wc -c
-```
+| Command | Purpose |
+|---------|---------|
+| `wc -l file` | Count lines |
+| `wc -w file` | Count words |
+| `wc -c file` | Count characters |
 
 ---
 
-## head
+## head / tail
 
-```bash
-head file.txt
-```
-
-First 20 lines
-
-```bash
-head -20 file.txt
-```
+| Command | Purpose |
+|---------|---------|
+| `head file` | First 10 lines |
+| `head -20 file` | First 20 lines |
+| `tail file` | Last 10 lines |
+| `tail -f app.log` | Live monitoring |
 
 ---
 
-## tail
+# 9. Useful One-Liners
 
-```bash
-tail file.txt
-```
-
-Follow log
-
-```bash
-tail -f app.log
-```
-
----
-
-# Task 6: Useful Patterns and One-Liners
-
-## Delete files older than 30 days
-
-```bash
-find /path -type f -mtime +30 -delete
-```
+| Task | Command |
+|------|---------|
+| Delete files older than 30 days | `find . -type f -mtime +30 -delete` |
+| Count lines in log files | `wc -l *.log` |
+| Replace text in multiple files | `find . -name "*.txt" -exec sed -i 's/old/new/g' {} +` |
+| Check service status | `systemctl is-active nginx` |
+| Disk usage over 80% | `df -h | awk '$5+0>80{print}'` |
+| Parse CSV | `cut -d',' -f2 file.csv` |
+| Parse JSON | `jq '.name' file.json` |
+| Tail logs for errors | `tail -f app.log \| grep ERROR` |
+| Largest files | `du -ah . | sort -rh | head -10` |
+| Top memory processes | `ps aux --sort=-%mem | head` |
 
 ---
 
-## Count lines in all log files
+# 10. Error Handling & Debugging
+
+| Command | Purpose |
+|---------|---------|
+| `echo $?` | Previous exit code |
+| `exit 0` | Success |
+| `exit 1` | Failure |
+| `set -e` | Exit on first error |
+| `set -u` | Error on unset variable |
+| `set -o pipefail` | Detect pipeline failures |
+| `set -x` | Debug mode |
+| `set +x` | Disable debug |
+| `trap cleanup EXIT` | Run cleanup before exit |
+
+Example:
 
 ```bash
-wc -l *.log
-```
+#!/bin/bash
+set -euo pipefail
 
----
-
-## Replace text in multiple files
-
-```bash
-find . -name "*.txt" -exec sed -i 's/old/new/g' {} +
-```
-
----
-
-## Check if a service is running
-
-```bash
-systemctl is-active nginx
-```
-
----
-
-## Disk usage alert
-
-```bash
-df -h | awk '$5+0 > 80 {print $0}'
-```
-
----
-
-## Parse CSV
-
-```bash
-cut -d',' -f2 data.csv
-```
-
----
-
-## Parse JSON
-
-```bash
-jq '.name' file.json
-```
-
----
-
-## Tail log and filter errors
-
-```bash
-tail -f app.log | grep ERROR
-```
-
----
-
-## Find largest files
-
-```bash
-du -ah . | sort -rh | head -10
-```
-
----
-
-## List top memory-consuming processes
-
-```bash
-ps aux --sort=-%mem | head
-```
-
----
-
-# Task 7: Error Handling and Debugging
-
-## Exit Codes
-
-Success
-
-```bash
-exit 0
-```
-
-Failure
-
-```bash
-exit 1
-```
-
-Previous command status
-
-```bash
-echo $?
-```
-
----
-
-## set -e
-
-Exit immediately on error.
-
-```bash
-set -e
-```
-
----
-
-## set -u
-
-Treat undefined variables as errors.
-
-```bash
-set -u
-```
-
----
-
-## set -o pipefail
-
-Detect failures in pipelines.
-
-```bash
-set -o pipefail
-```
-
-Example
-
-```bash
-grep foo file.txt | sort
-```
-
-Without `pipefail`, failure in `grep` may be ignored.
-
----
-
-## set -x
-
-Debug mode.
-
-```bash
-set -x
-```
-
-Shows every command before execution.
-
-Disable:
-
-```bash
-set +x
-```
-
----
-
-## trap
-
-Execute cleanup before exit.
-
-```bash
 cleanup() {
     echo "Cleaning up..."
 }
 
 trap cleanup EXIT
 ```
-
-Useful for:
-
-- Removing temporary files
-- Closing resources
-- Logging script termination
-
----
-
-# Best Practices
-
-- Always start scripts with a shebang.
-- Quote variables (`"$VAR"`).
-- Use meaningful variable names.
-- Check command exit codes.
-- Prefer `$(command)` over backticks.
-- Use functions for reusable code.
-- Enable `set -euo pipefail` for safer scripts.
-- Use `shellcheck` to lint shell scripts.
-- Add comments for complex logic.
-- Test scripts before running in production.
-
----
-
-# Common Keyboard Shortcuts
-
-| Shortcut | Description |
-|-----------|-------------|
-| `Ctrl + C` | Stop running process |
-| `Ctrl + Z` | Suspend process |
-| `Ctrl + D` | Exit terminal/input |
-| `Ctrl + R` | Search command history |
-| `Ctrl + A` | Beginning of line |
-| `Ctrl + E` | End of line |
-| `!!` | Repeat previous command |
-| `history` | Show command history |
-
----
-
-# Quick Reference
-
-```bash
-#!/bin/bash
-
-set -euo pipefail
-
-read -p "Enter name: " NAME
-
-if [ -n "$NAME" ]; then
-    echo "Hello $NAME"
-fi
-
-for file in *.txt
-do
-    echo "$file"
-done
-
-myfunc() {
-    local msg="$1"
-    echo "$msg"
-}
-
-myfunc "Done"
-```
-
----
 
 ````
