@@ -33,3 +33,62 @@ It is the repository you cloned or created, and you have full permission to push
 
 upstream: This is the original, authoritative repository created by someone else that you cloned or "forked" your copy from. 
 You usually only have permission to pull updates from it, not push code directly to it
+
+-----------------------------
+
+## 6. What is the difference between git fetch and git pull
+The fundamental difference is that git fetch only downloads data, while git pull downloads data AND immediately merges it into your local files.
+
+
+| Feature | `git fetch` | `git pull` |
+| :--- | :--- | :--- |
+| **What it does** | Downloads new history from the remote server. | Downloads new history and combines it with your local work. |
+| **Changes your files?** | ❌ No. Your local files remain completely untouched. | Yes. It modifies your local files to match the remote server. |
+| **Is it safe?** | 100% Safe. It will never overwrite your changes or cause conflicts. | ⚠️ Risk of conflicts. It can trigger merge conflicts that you must fix immediately. |
+| **When to use** | When you want to see what your teammates have done without disrupting your own work. | When you want to update your current branch with the latest remote changes right away. |
+
+----------------------------
+
+## 7. What is the difference between clone and fork?
+The primary difference is where the copy lives and your level of ownership. 
+
+* Fork: A server-side copy of a repository that lives entirely on your remote hosting service (like GitHub or GitLab). It is a copy created under your personal account. You have full administrative control over this online copy.
+* Clone: A local copy of a remote repository downloaded onto your physical computer. Cloning creates a local development workspace on your laptop, allowing you to edit files, create commits, and test code locally.
+
+------------------------------
+## 8. When would you clone vs. fork?
+
+* Contributing to Open Source: You want to fix a bug or add a feature to a public project where you do not have direct write access (write permissions). 
+* Starting a New Project from an Old One: You want to use an existing open-source project as a foundation to build your own separate, independent software product. 
+
+## Use Clone when:
+
+* Starting Daily Work: You already own a repository (or your team does), and you need a local copy on your laptop to start writing code.
+* Downloading Code to Run It: You just want to use the software, run the project locally, or inspect the codebase without intending to change it on the remote server. 
+
+### Note: In an open-source workflow, you usually do both—you fork the original repository on GitHub first, and then you clone your fork down to your computer. 
+------------------------------
+## 9. How to keep your fork in sync with the original repository
+To pull updates from the original project into your fork, you must link your local repository to the original project as a secondary remote called upstream. 
+## Step 1: Add the original repository as upstream 
+Run this once inside your local project terminal (replace the URL with the original creator's repository link): 
+
+git remote add upstream <github_repo_link>
+
+## Step 2: Fetch the latest changes from the original project
+Download all the new commits and branches from the original repository: 
+
+git fetch upstream
+
+## Step 3: Merge the changes into your local main branch 
+Switch to your local main branch and pull the upstream updates into it: 
+
+git switch main
+git merge upstream/main
+
+## Step 4: Update your online fork (origin)
+Push your newly updated local main branch up to your GitHub profile so your online fork is perfectly synchronized 
+
+git push origin main
+
+------------------------------
