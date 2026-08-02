@@ -27,3 +27,9 @@ When you switch branches (using git switch <branch> or git checkout <branch>), G
 * You must either commit those changes, stash them (git stash), or discard them before switching. [29, 30, 31, 32] 
 
 ------------------------------
+ ## 5. What is the difference between origin and upstream?
+origin: This is your personal copy of the repository hosted on a server (like GitHub). 
+It is the repository you cloned or created, and you have full permission to push your code changes to it.
+
+upstream: This is the original, authoritative repository created by someone else that you cloned or "forked" your copy from. 
+You usually only have permission to pull updates from it, not push code directly to it
