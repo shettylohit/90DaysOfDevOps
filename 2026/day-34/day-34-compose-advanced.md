@@ -1,4 +1,4 @@
-# Docker Compose 3-Service App Stack
+# Day 34 – Docker Compose: Real-World Multi-Container Apps
 
 This project demonstrates a simple **Flask + PostgreSQL + Redis** application stack using Docker Compose.
 
