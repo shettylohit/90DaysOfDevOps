@@ -1,12 +1,48 @@
+Here are three minimal “Hello World” apps—one in each language/runtime.
+
+### Go
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello, World!")
+}
+```
+
+Run it with:
+
 ```bash
-public class HelloWorld {
+go run main.go
+```
+
+### Java
+
+```java
+public class Main {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
     }
 }
 ```
- # to run 
+
+Run it with:
+
+```bash
+javac Main.java
+java Main
 ```
-javac HelloWorld.java
-java HelloWorld
+
+### Node.js
+
+```javascript
+console.log("Hello, World!");
+```
+
+Run it with:
+
+```bash
+node app.js
 ```
