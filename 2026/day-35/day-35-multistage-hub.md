@@ -1,4 +1,3 @@
-Here are three minimal “Hello World” apps—one in each language/runtime.
 
 ### Go
 
