@@ -164,10 +164,10 @@ app.delete("/api/tasks/:id", async (req, res) => {
 
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
 
     console.log(
-        `Server running at http://localhost:${PORT}`
+        `Server running on port ${PORT}`
     );
 
 });
