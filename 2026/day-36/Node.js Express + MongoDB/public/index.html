@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Task Manager - Express</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Task Manager</h1>
+
+    <form id="taskForm">
+
+        <input
+            id="title"
+            type="text"
+            placeholder="Task title"
+            required
+        >
+
+        <input
+            id="description"
+            type="text"
+            placeholder="Description"
+        >
+
+        <button type="submit">
+            Add Task
+        </button>
+
+    </form>
+
+    <div id="tasks"></div>
+
+</div>
+
+
+<script>
+
+async function loadTasks() {
+
+    const response = await fetch("/api/tasks");
+
+    const tasks = await response.json();
+
+    const container = document.getElementById("tasks");
+
+    container.innerHTML = "";
+
+    tasks.forEach(task => {
+
+        const element = document.createElement("div");
+
+        element.className = "task";
+
+        element.innerHTML = `
+
+            <div>
+
+                <h3 class="${task.completed ? "completed" : ""}">
+                    ${task.title}
+                </h3>
+
+                <p>
+                    ${task.description || ""}
+                </p>
+
+            </div>
+
+            <div>
+
+                <button
+                    onclick="toggleTask('${task._id}', ${task.completed})"
+                >
+                    ${task.completed ? "Undo" : "Complete"}
+                </button>
+
+                <button
+                    class="delete"
+                    onclick="deleteTask('${task._id}')"
+                >
+                    Delete
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(element);
+    });
+}
+
+
+document
+    .getElementById("taskForm")
+    .addEventListener("submit", async event => {
+
+        event.preventDefault();
+
+        const title =
+            document.getElementById("title").value;
+
+        const description =
+            document.getElementById("description").value;
+
+        await fetch("/api/tasks", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                title,
+                description
+            })
+
+        });
+
+        event.target.reset();
+
+        loadTasks();
+    });
+
+
+async function toggleTask(id, completed) {
+
+    await fetch(`/api/tasks/${id}`, {
+
+        method: "PUT",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            completed: !completed
+        })
+
+    });
+
+    loadTasks();
+}
+
+
+async function deleteTask(id) {
+
+    if (!confirm("Delete this task?")) {
+        return;
+    }
+
+    await fetch(`/api/tasks/${id}`, {
+        method: "DELETE"
+    });
+
+    loadTasks();
+}
+
+
+loadTasks();
+
+</script>
+
+</body>
+
+</html>
