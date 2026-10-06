@@ -1,7 +1,7 @@
 FROM node:22-slim AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 COPY . .
 EXPOSE 3000
 CMD ["npm", "run", "dev"]
@@ -9,11 +9,13 @@ CMD ["npm", "run", "dev"]
 
 
 
-Yes — **your Dockerfile successfully builds and starts the Node/Express application**, so you're on the right track.
 
- The error you're seeing is specifically the **Node container → MongoDB connection** problem.
+docker run -d \
+  --name mongodb \
+  -p 27017:27017 \
+  -v mongodb-data:/data/db \
+  mongo:7
 
- Here are the things to improve, without giving you the solution code.
 
  ### Mistakes / improvements
 
@@ -52,18 +54,7 @@ Yes — **your Dockerfile successfully builds and starts the Node/Express applic
 9. **`npm run dev` is not ideal for a production container**
    - `node --watch` is primarily a development workflow.
    - For your learning project it's okay initially, but later create a production-oriented container that uses your normal `start` script.
-10. **Your `AS builder` isn't actually being used as a multi-stage build**
-    - You named the stage:
 
-      ```
-      AS builder
-      ```
-    - But you never have another stage that copies artifacts from `builder`.
-    - So right now this isn't really a multi-stage Dockerfile.
-    - Either learn why you're using a builder stage or simplify it for now.
-11. **Consider `npm ci` instead of `npm install` when building from a lockfile**
-    - You have `package-lock.json`.
-    - For reproducible Docker builds, `npm ci` is generally preferable.
 12. **Think about `node_modules`**
     - Make sure your `.dockerignore` prevents your host's `node_modules` from being copied into the image.
     - The container should install its own dependencies.
