@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify
 import sqlite3
+import os
 
 app = Flask(__name__)
 
-DATABASE = "tasks.db"
-
+DATABASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tasks.db")
 
 def get_db():
 
@@ -197,10 +197,8 @@ def delete_task(task_id):
         "message": "Task deleted successfully"
     })
 
-
+init_db()
 if __name__ == "__main__":
-
-    init_db()
 
     app.run(
         host="127.0.0.1",
