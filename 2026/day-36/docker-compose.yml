@@ -1,0 +1,21 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      DATABASE: /data/tasks.db
+    volumes:
+      - task-data:/data
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  task-data:
