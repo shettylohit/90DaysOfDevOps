@@ -87,3 +87,9 @@ Run Flask container
        └── SQLite file → Docker Volume
 ```
 Important: SQLite doesn't need its own container. The database is simply a file used by the Flask container, and the volume makes sure the file survives container recreation.
+
+For docker compose file to start run
+```
+docker compose up --build
+
+```
