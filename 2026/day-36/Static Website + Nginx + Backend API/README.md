@@ -229,6 +229,15 @@ nginx/                        (your project root)
 │   └── default.conf          <- new (Docker version of your config)
 └── docker-compose.yml        <- new
 ```
+```
+File	                     Purpose
+backend/requirements.txt	Lists Python packages so the image can install them
+backend/Dockerfile	      Recipe for the Flask image
+backend/.dockerignore	   Files Docker should not send into the build
+nginx/Dockerfile	         Recipe for the Nginx image (with your frontend baked in)
+nginx/default.conf	      Nginx config, adapted for Docker
+docker-compose.yml	      Defines and connects the two services
+```
 
 Install Docker on the instance
 ```
