@@ -1,0 +1,25 @@
+services:
+  app:
+    # Build configuration: points to the Dockerfile in the current directory
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    # Name given to the container when running
+    container_name: python_app_container
+
+    # Map the container's port to your local machine (Host_Port:Container_Port)
+    # Change 8000 to match your application's port
+    ports:
+      - "5000:500"
+      
+    # Mounts your local code into the container for live-reloading during development
+    # (Optional: remove this line in production environments)
+    volumes:
+      - .:/app
+
+    # Restart policy: automatically restarts the app if it crashes
+    restart: unless-stopped
+
+
+
