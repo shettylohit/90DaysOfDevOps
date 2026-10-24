@@ -6,7 +6,6 @@
 # run: Commands to run for the given steps
 # name: Name of the steps
 
-
 name: Hello 
 on: push
 jobs:
@@ -18,3 +17,11 @@ jobs:
               uses: actions/checkout@v7
             - name: Print 
               run: echo "Hello from GitHub Actions!"
+            - name: Print Date and Time
+              run: date
+            - name: Print the name of the branch that triggered the run
+              run: echo ${{ github.ref_name }} 
+            - name: List the fiels in repo 
+              run: ls -lrta
+            - name: Print the runner operating system
+              run: cat /etc/os-release
