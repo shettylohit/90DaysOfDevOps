@@ -1,1 +1,11 @@
-
+name: Hello 
+on: push
+jobs:
+    greet:
+        name: Greet
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout 
+              uses: actions/checkout@v7
+            - name: Print 
+              run: echo "Hello from GitHub Actions!"
