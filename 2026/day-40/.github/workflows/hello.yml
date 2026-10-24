@@ -1,3 +1,12 @@
+# on: Trigger to run the workflow
+# jobs: Building blocks of a workflow, containing one or more steps
+# runs-on: Specific the name of the runner either self-hosted or Github runner
+# steps: Mentions steps to run on the runner
+# uses: Pre-built and reusable actions
+# run: Commands to run for the given steps
+# name: Name of the steps
+
+
 name: Hello 
 on: push
 jobs:
