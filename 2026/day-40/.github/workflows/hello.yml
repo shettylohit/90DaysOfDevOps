@@ -18,7 +18,7 @@ jobs:
             - name: Print 
               run: echo "Hello from GitHub Actions!"
             - name: Print Date and Time
-              run: date
+              run: date  # added datesss to break the workflow
             - name: Print the name of the branch that triggered the run
               run: echo ${{ github.ref_name }} 
             - name: List the fiels in repo 
