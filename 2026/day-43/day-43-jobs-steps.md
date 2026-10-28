@@ -1,3 +1,4 @@
+```
 name: Multiple jobs
 
 on: push
@@ -149,3 +150,4 @@ jobs:
 
       - name: Print commit message
         run: echo "Commit message ${{ github.event.head_commit.message }}"
+```
