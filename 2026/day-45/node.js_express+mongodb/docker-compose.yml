@@ -1,0 +1,52 @@
+services:
+  # --- Frontend  Service ---
+  app:
+    # Build the image from a local Dockerfile in the current directory
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: node_app
+    # Map host port 3000 to container port 3000
+    ports:
+      - "3000:3000"
+    # Environment variables directly in the file
+    env_file:
+       - .env
+    # Ensure the database is up before starting this container
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    
+    networks:
+      - node_app_network
+    restart: unless-stopped
+
+  # --- Database Service ---
+  mongodb:
+    image: mongo:7
+    container_name: mongodb
+    # Persist database files across container restarts using a named volume
+    volumes:
+      - mongodb_data:/data/db
+
+    healthcheck:
+      test: >
+        mongosh --quiet --eval "db.adminCommand('ping').ok"
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    
+    networks:
+      - node_app_network
+    restart: unless-stopped
+
+# --- Named Volumes ---
+volumes:
+  mongodb_data: # Declares the volume for persistent database storage
+
+# --- Custom Networks ---
+networks:
+  node_app_network:
+    driver: bridge
+
